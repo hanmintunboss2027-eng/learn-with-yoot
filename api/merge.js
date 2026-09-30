@@ -26,6 +26,7 @@ function mergeStudentData(a, b, ua, ub) {
       const del = new Set([].concat((x && x.deleted) || [], (y && y.deleted) || []));
       out[k] = { list: Array.from(m.values()).filter(it => !del.has(it.id)).sort((p, q) => (p.created || 0) - (q.created || 0)).slice(-40), deleted: Array.from(del).slice(-200) };
     }
+    else if (k === 'yoot.game.v1') { const r = { best: {}, played: Math.max(+(x && x.played) || 0, +(y && y.played) || 0) }; new Set(Object.keys((x && x.best) || {}).concat(Object.keys((y && y.best) || {}))).forEach(s => { r.best[s] = Math.max(+((x && x.best || {})[s]) || 0, +((y && y.best || {})[s]) || 0); }); out[k] = r; }
     else out[k] = newer[k] != null ? newer[k] : older[k];
   });
   return out;
